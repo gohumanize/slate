@@ -14,6 +14,7 @@ License for the specific language governing permissions and limitations
 under the License.
 %>
 <% language_tabs = current_page.data.language_tabs || [] %>
+<% versions = [ { name: 'production', url: 'index.html', active: (current_page.url == '/' || current_page.url.include?('index.html')) }, { name: 'development', url: 'development.html', active: (current_page.url.include?('development.html')) }] %>
 <% page_content = yield %>
 <%
   if current_page.data.includes
@@ -59,6 +60,15 @@ under the License.
               <a href="#" data-language-name="<%= lang.keys.first %>"><%= lang.values.first %></a>
             <% else %>
               <a href="#" data-language-name="<%= lang %>"><%= lang %></a>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+      <% if versions.any? %>
+        <div class="versions-selector">
+          <% versions.each do |lang| %>
+            <% if lang.is_a? Hash %>
+              <a href="/<%= lang[:url] %>" class="<%= (lang[:active] ? 'active' : '') %>" data-version-name="<%= lang[:active] %>"><%= lang[:name] %></a>
             <% end %>
           <% end %>
         </div>
